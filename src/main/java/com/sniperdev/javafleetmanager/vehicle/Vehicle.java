@@ -1,26 +1,45 @@
-package com.sniperdev.javafleetmanager;
+package com.sniperdev.javafleetmanager.vehicle;
+
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Vehicle {
 
-    private @Id @GeneratedValue Long id;
+    @Id
+    private Long id;
+    @NotBlank(message = "Brand is mandatory")
     private String brand;
+    @NotBlank(message = "Model is mandatory")
     private String model;
+    @NotBlank(message = "Year is mandatory")
     private String year;
+    @NotBlank(message = "Registration number is mandatory")
     private String registrationNumber;
+    @NotBlank(message = "Type is mandatory")
     private String type;
+    @NotBlank(message = "Status is mandatory")
     private String status;
+    @NotBlank(message = "Driver ID is mandatory")
     private String driverId;
 
-    public Vehicle(Integer id, String brand, String model, String year, String registrationNumber, String type, String status, String driverId) {}
+    public Vehicle(Long id, String brand, String model, String year, String registrationNumber, String type, String status, String driverId) {
+        this.id = id;
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.registrationNumber = registrationNumber;
+        this.type = type;
+        this.status = status;
+        this.driverId = driverId;
+    }
 
     public Vehicle() {
 
     }
+
 
     public Long getId() {
         return id;
