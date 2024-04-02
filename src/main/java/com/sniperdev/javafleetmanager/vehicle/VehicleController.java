@@ -1,10 +1,16 @@
 package com.sniperdev.javafleetmanager.vehicle;
 
+import com.sniperdev.javafleetmanager.utils.PdfGenerator;
 import jakarta.validation.Valid;
+
+import java.io.ByteArrayInputStream;
 import java.util.Map;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,6 +56,20 @@ public class VehicleController {
         vehicleService.deleteVehicle(id);
         return "Vehicle deleted successfully";
     }
+
+    @RequestMapping(value = "/pdfreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<org.springframework.core.io.Resource> generatePdfReport() {
+        List<Vehicle> vehicles = vehicleService.getVehicles();
+        ByteArrayInputStream bis = PdfGenerator.vehiclesReport(vehicles);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=vehicles.pdf");
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
