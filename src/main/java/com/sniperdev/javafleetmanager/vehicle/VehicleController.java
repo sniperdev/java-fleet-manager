@@ -57,7 +57,7 @@ public class VehicleController {
         return "Vehicle deleted successfully";
     }
 
-    @RequestMapping(value = "/pdfreport", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
+    @RequestMapping(value = "/list/download/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<org.springframework.core.io.Resource> generatePdfReport() {
         List<Vehicle> vehicles = vehicleService.getVehicles();
         ByteArrayInputStream bis = PdfGenerator.vehiclesReport(vehicles);
