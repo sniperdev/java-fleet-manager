@@ -3,6 +3,7 @@ package com.sniperdev.javafleetmanager.order;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class OrderService {
     private final OrderRepository orderRepository;
@@ -19,11 +20,11 @@ public class OrderService {
         return orderRepository.findById(id).orElse(null);
     }
 
-    public void addOrder(Order order) {
-        orderRepository.save(order);
+    public Order addOrder(Order order) {
+       return orderRepository.save(order);
     }
 
-    public void updateOrder(Order order, Long id) {
+    public Order updateOrder(Order order, Long id) {
         Order orderToUpdate = orderRepository.findById(id).orElse(null);
         if (orderToUpdate != null) {
             orderToUpdate.setPickupLocation(order.getPickupLocation());
@@ -36,6 +37,7 @@ public class OrderService {
             orderToUpdate.setStatus(order.getStatus());
             orderRepository.save(orderToUpdate);
         }
+        return orderRepository.findById(id).orElse(null);
     }
 
     public void deleteVehicle(Long id) {

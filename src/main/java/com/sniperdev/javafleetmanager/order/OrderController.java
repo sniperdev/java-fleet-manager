@@ -13,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,21 +39,26 @@ public class OrderController {
     }
 
     @PostMapping(path="/add")
-    public ResponseEntity<String> addOrder(@Valid @RequestBody Order order) {
-        orderService.addOrder(order);
-        return ResponseEntity.ok("Order added successfully");
+    public ResponseEntity<Object> addOrder(@Valid @RequestBody Order order) {
+        Order addedOrder = orderService.addOrder(order);
+        if(addedOrder == null) return ResponseEntity.notFound().build();
+        else {
+            URI location = URI.create("http://localhost:8080/orders/" + addedOrder.getId());
+            return ResponseEntity.created(location).body(addedOrder);
+        }
     }
 
     @PutMapping(path="/update/{id}")
-    public ResponseEntity<String> updateOrder(@Valid @RequestBody Order order, @PathVariable Long id) {
-        orderService.updateOrder(order, id);
-        return ResponseEntity.ok("Order updated successfully");
+    public ResponseEntity<Object> updateOrder(@Valid @RequestBody Order order, @PathVariable Long id) {
+        Order updatedOrder = orderService.updateOrder(order, id);
+        if(updatedOrder == null) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(updatedOrder);
     }
 
     @DeleteMapping(path="/delete/{id}")
     public ResponseEntity<String>  deleteVehicle(@PathVariable Long id) {
         orderService.deleteVehicle(id);
-        return ResponseEntity.ok("Vehicle deleted successfully");
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/list/download/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)

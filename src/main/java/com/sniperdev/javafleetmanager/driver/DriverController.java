@@ -12,6 +12,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,10 @@ public class DriverController {
     public ResponseEntity<Object> addDriver(@RequestBody Driver driver) {
         Driver addedDriver = driverService.addDriver(driver);
         if(addedDriver == null) return ResponseEntity.notFound().build();
-        else return ResponseEntity.ok(addedDriver);
+        else{
+            URI location = URI.create("http://localhost:8080/drivers/" + addedDriver.getId());
+            return ResponseEntity.created(location).body(addedDriver);
+        }
     }
 
     @PutMapping(path = "/update/{id}")
