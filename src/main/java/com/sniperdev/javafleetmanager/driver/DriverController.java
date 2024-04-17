@@ -35,22 +35,24 @@ public class DriverController {
         return driverService.getDriver(id);
     }
 
-    @GetMapping(path = "/add")
-    public ResponseEntity<String> addDriver(@RequestBody Driver driver) {
-        driverService.addDriver(driver);
-        return ResponseEntity.ok("Driver added successfully");
+    @PostMapping(path = "/add")
+    public ResponseEntity<Object> addDriver(@RequestBody Driver driver) {
+        Driver addedDriver = driverService.addDriver(driver);
+        if(addedDriver == null) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(addedDriver);
     }
 
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<String> updateDriver(@RequestBody Driver driver, @PathVariable Long id) {
-        driverService.updateDriver(driver, id);
-        return ResponseEntity.ok("Driver updated successfully");
+    public ResponseEntity<Object> updateDriver(@RequestBody Driver driver, @PathVariable Long id) {
+        Driver updatedDriver = driverService.updateDriver(driver, id);
+        if(updatedDriver == null) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(updatedDriver);
     }
 
     @DeleteMapping(path = "/delete/{id}")
     public ResponseEntity<String> deleteDriver(@PathVariable Long id) {
         driverService.deleteDriver(id);
-        return ResponseEntity.ok("Driver deleted successfully");
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/list/download/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)

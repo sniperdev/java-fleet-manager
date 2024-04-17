@@ -20,11 +20,11 @@ public class DriverService {
         return driverRepository.findById(id).orElse(null);
     }
 
-    public void addDriver(Driver driver) {
-        driverRepository.save(driver);
+    public Driver addDriver(Driver driver) {
+        return driverRepository.save(driver);
     }
 
-    public void updateDriver(Driver driver, Long id) {
+    public Driver updateDriver(Driver driver, Long id) {
         Driver driverToUpdate = driverRepository.findById(id).orElse(null);
         if (driverToUpdate != null) {
             driverToUpdate.setFirstName(driver.getFirstName());
@@ -35,6 +35,7 @@ public class DriverService {
             driverToUpdate.setDrivingLicenseNumber(driver.getDrivingLicenseNumber());
             driverRepository.save(driverToUpdate);
         }
+        return driverRepository.findById(id).orElse(null);
     }
 
     public void deleteDriver(Long id) {
