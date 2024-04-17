@@ -20,11 +20,11 @@ public class VehicleService {
         return vehicleRepository.findById(id).orElse(null);
     }
 
-    public void addVehicle(Vehicle vehicle) {
-        vehicleRepository.save(vehicle);
+    public Vehicle addVehicle(Vehicle vehicle) {
+        return vehicleRepository.save(vehicle);
     }
 
-    public void updateVehicle(Vehicle vehicle, Long id) {
+    public Vehicle updateVehicle(Vehicle vehicle, Long id) {
     Vehicle vehicleToUpdate = vehicleRepository.findById(id).orElse(null);
     if (vehicleToUpdate != null) {
         vehicleToUpdate.setBrand(vehicle.getBrand());
@@ -36,6 +36,7 @@ public class VehicleService {
         vehicleToUpdate.setDriverId(vehicle.getDriverId());
         vehicleRepository.save(vehicleToUpdate);
     }
+    return vehicleRepository.findById(id).orElse(null);
 }
 
     public void deleteVehicle(Long id) {

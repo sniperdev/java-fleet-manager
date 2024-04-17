@@ -4,6 +4,7 @@ import com.sniperdev.javafleetmanager.utils.PdfGenerator;
 import jakarta.validation.Valid;
 
 import java.io.ByteArrayInputStream;
+import java.net.URI;
 import java.util.Map;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,21 +41,26 @@ public class VehicleController {
     }
 
     @PostMapping(path="/add")
-    public ResponseEntity<String> addVehicle(@Valid @RequestBody Vehicle vehicle) {
-        vehicleService.addVehicle(vehicle);
-        return ResponseEntity.ok("Vehicle added successfully");
+    public ResponseEntity<Object> addVehicle(@Valid @RequestBody Vehicle vehicle) {
+        Vehicle addeddVehicle = vehicleService.addVehicle(vehicle);
+        if (addeddVehicle == null) return ResponseEntity.notFound().build();
+        else {
+            URI location = URI.create("http://localhost:8080/vehicles/" + addeddVehicle.getId());
+            return ResponseEntity.created(location).body(addeddVehicle);
+        }
     }
 
     @PutMapping(path="/update/{id}")
-    public String updateVehicle(@Valid @RequestBody Vehicle vehicle, @PathVariable Long id) {
-        vehicleService.updateVehicle(vehicle, id);
-        return "Vehicle updated successfully";
+    public ResponseEntity<Object> updateVehicle(@Valid @RequestBody Vehicle vehicle, @PathVariable Long id) {
+        Vehicle updatedVehicle = vehicleService.updateVehicle(vehicle, id);
+        if (updatedVehicle == null) return ResponseEntity.notFound().build();
+        else return ResponseEntity.ok(updatedVehicle);
     }
 
     @DeleteMapping(path="/delete/{id}")
-    public String deleteVehicle(@PathVariable Long id) {
+    public ResponseEntity<String> deleteVehicle(@PathVariable Long id) {
         vehicleService.deleteVehicle(id);
-        return "Vehicle deleted successfully";
+        return ResponseEntity.noContent().build();
     }
 
     @RequestMapping(value = "/list/download/pdf", method = RequestMethod.GET, produces = MediaType.APPLICATION_PDF_VALUE)
