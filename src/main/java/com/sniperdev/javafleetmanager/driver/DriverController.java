@@ -1,6 +1,7 @@
 package com.sniperdev.javafleetmanager.driver;
 
 import com.sniperdev.javafleetmanager.utils.PdfGenerator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -32,12 +33,12 @@ public class DriverController {
     }
 
     @GetMapping(path = "/{id}")
-    public Driver getDriver(@PathVariable Long id) {
+    public Driver getDriver(@PathVariable @Valid Long id) {
         return driverService.getDriver(id);
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<Object> addDriver(@RequestBody Driver driver) {
+    public ResponseEntity<Object> addDriver(@RequestBody @Valid Driver driver) {
         Driver addedDriver = driverService.addDriver(driver);
         if(addedDriver == null) return ResponseEntity.notFound().build();
         else{
@@ -47,14 +48,14 @@ public class DriverController {
     }
 
     @PutMapping(path = "/update/{id}")
-    public ResponseEntity<Object> updateDriver(@RequestBody Driver driver, @PathVariable Long id) {
+    public ResponseEntity<Object> updateDriver(@RequestBody @Valid Driver driver, @PathVariable @Valid Long id) {
         Driver updatedDriver = driverService.updateDriver(driver, id);
         if(updatedDriver == null) return ResponseEntity.notFound().build();
         else return ResponseEntity.ok(updatedDriver);
     }
 
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<String> deleteDriver(@PathVariable Long id) {
+    public ResponseEntity<String> deleteDriver(@PathVariable @Valid Long id) {
         driverService.deleteDriver(id);
         return ResponseEntity.noContent().build();
     }

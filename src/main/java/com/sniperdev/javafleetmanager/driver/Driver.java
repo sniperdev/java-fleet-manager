@@ -1,7 +1,7 @@
 package com.sniperdev.javafleetmanager.driver;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 
 @Entity
 @Table(name = "drivers")
@@ -9,16 +9,28 @@ public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
+    @Pattern(regexp = "[a-zA-Z]+", message = "It must consist of letters")
     @NotBlank(message = "First name is mandatory")
     private String firstName;
+
+    @Pattern(regexp = "[a-zA-Z]+", message = "It must consist of letters")
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
+
+    @Pattern(regexp = "^[0-9]{9}$", message = "It must be 9 digits long")
     @NotBlank(message = "Phone number is mandatory")
     private String phoneNumber;
+
+    @Email(message = "It must be an email")
     @NotBlank(message = "Email is mandatory")
     private String email;
+
+    @Pattern(regexp = "^\\d{4}\\-(0[1-9]|1[012])\\-(0[1-9]|[12][0-9]|3[01])$", message = "It must be a date in format YYYY-MM-DD")
     @NotBlank(message="Birth date is mandatory")
     private String birthDate;
+
+    @Pattern(regexp = "^[0-9A-Z]{9}$", message = "It must be 9 characters long")
     @NotBlank(message="License number is mandatory")
     private String drivingLicenseNumber;
 
