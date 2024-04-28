@@ -2,6 +2,7 @@ package com.sniperdev.javafleetmanager.order;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "orders")
@@ -10,21 +11,34 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotBlank(message = "Pickup location is mandatory")
     private String pickupLocation;
+
     @NotBlank(message = "Delivery location is mandatory")
     private String deliveryLocation;
+
     @NotBlank(message = "Cargo description is mandatory")
     private String cargoDescription;
+
     @NotBlank(message = "Pickup time is mandatory")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z")
     private String pickupTime;
+
     @NotBlank(message = "Delivery time is mandatory")
+    @Pattern(regexp = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z")
     private String deliveryTime;
+
     @NotBlank(message = "Vehicle id is mandatory")
+    @Pattern(regexp = "[0-9]")
     private String vehicleId;
+
     @NotBlank(message = "Driver id is mandatory")
+    @Pattern(regexp = "[0-9]")
     private String driverId;
+
     @NotBlank(message = "Status is mandatory")
+    @Pattern(regexp = "(Pending|In progress|Completed)")
     private String status;
 
     public Order(Long id, String pickupLocation, String deliveryLocation, String cargoDescription, String pickupTime, String deliveryTime, String vehicleId, String driverId, String status) {
