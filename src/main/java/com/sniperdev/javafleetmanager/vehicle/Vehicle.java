@@ -3,6 +3,8 @@ package com.sniperdev.javafleetmanager.vehicle;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "vehicles")
@@ -11,19 +13,35 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     @NotBlank(message = "Brand is mandatory")
+    @Size(min = 3, message = "Brand is too short")
+    @Size(max = 15, message = "Brand is too long")
     private String brand;
+
+    @Size(min = 3, message = "Model is too short")
+    @Size(max = 15, message = "Model is too long")
     @NotBlank(message = "Model is mandatory")
     private String model;
+
     @NotBlank(message = "Year is mandatory")
+    @Pattern(regexp = "[0-9]{4}")
     private String year;
+
     @NotBlank(message = "Registration number is mandatory")
+    @Pattern(regexp = "([A-Z]{2}[0-9A-Z]{5})|([A-Z]{3}[0-9A-Z]{4})")
     private String registrationNumber;
+
     @NotBlank(message = "Type is mandatory")
+    @Pattern(regexp = "(Van|Truck)")
     private String type;
+
     @NotBlank(message = "Status is mandatory")
+    @Pattern(regexp = "(Available|In use|During technical work)")
     private String status;
+
     @NotBlank(message = "Driver ID is mandatory")
+    @Pattern(regexp = "[0-9]")
     private String driverId;
 
     public Vehicle(Long id, String brand, String model, String year, String registrationNumber, String type, String status, String driverId) {
