@@ -3,6 +3,7 @@ package com.sniperdev.javafleetmanager.driver;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DriverService {
@@ -40,5 +41,11 @@ public class DriverService {
 
     public void deleteDriver(Long id) {
         driverRepository.deleteById(id);
+    }
+
+    public List<DriverInfo> getDriverInfo() {
+        return driverRepository.findAll().stream()
+                .map(driver -> new DriverInfo(driver.getId(), driver.getFirstName(), driver.getLastName()))
+                .collect(Collectors.toList());
     }
 }

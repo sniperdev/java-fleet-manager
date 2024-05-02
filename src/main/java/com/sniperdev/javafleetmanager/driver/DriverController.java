@@ -73,6 +73,11 @@ public class DriverController {
                 .body(new InputStreamResource(bis));
     }
 
+    @GetMapping(path = "/dictionaries")
+    public List<DriverInfo> getDriverInfo() {
+        return driverService.getDriverInfo();
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, String> handleValidationExceptions(
