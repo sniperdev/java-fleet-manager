@@ -45,7 +45,7 @@ public class DriverService {
 
     public List<DriverInfo> getDriverInfo() {
         return driverRepository.findAll().stream()
-                .map(driver -> new DriverInfo(driver.getId(), driver.getFirstName(), driver.getLastName()))
+                .map(driver -> new DriverInfo(driver.getId().toString(), driver.getFirstName() + " " + driver.getLastName()))
                 .collect(Collectors.toList());
     }
 }

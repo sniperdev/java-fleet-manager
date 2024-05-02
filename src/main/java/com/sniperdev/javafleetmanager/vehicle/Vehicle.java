@@ -29,7 +29,7 @@ public class Vehicle {
     private String year;
 
     @NotBlank(message = "Registration number is mandatory")
-    @Pattern(regexp = "([A-Z]{2}[0-9A-Z]{5})|([A-Z]{3}[0-9A-Z]{4})")
+    @Pattern(regexp = "([A-Z]{2}[0-9A-Z]{5})|([A-Z]{3}[0-9A-Z]{4})|([A-Z]{3}[0-9A-Z]{5})")
     private String registrationNumber;
 
     @NotBlank(message = "Type is mandatory")
@@ -41,7 +41,7 @@ public class Vehicle {
     private String status;
 
     @NotBlank(message = "Driver ID is mandatory")
-    @Pattern(regexp = "[0-9]")
+    @Pattern(regexp = "[0-9]+")
     private String driverId;
 
     public Vehicle(Long id, String brand, String model, String year, String registrationNumber, String type, String status, String driverId) {
